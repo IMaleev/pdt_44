@@ -1,3 +1,5 @@
+package ru.stqa.pft.sandbox;
+
 public class Task2 {
 
     public static void main(String[] args) {
