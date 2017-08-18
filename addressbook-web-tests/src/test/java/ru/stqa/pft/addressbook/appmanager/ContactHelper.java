@@ -34,4 +34,26 @@ public class ContactHelper extends BaseHelper {
     public void submitNewUserForm() {click(By.xpath("//div[@id='content']/form/input[21]"));}
 
     public void initUserCreation() {click(By.linkText("add new"));}
+
+    public void selectUser() {
+        if (!wd.findElement(By.name("selected[]")).isSelected()) {
+            click(By.name("selected[]"));
+        }
+    }
+
+    public void deleteSelectedUser() {
+        click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+    }
+
+    public void submitUserDeletion() {
+        wd.switchTo().alert().accept();
+    }
+
+    public void initUserModification() {
+        click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    }
+
+    public void submitUserModificationForm() {
+        click(By.xpath("//div[@id='content']/form[1]/input[22]"));
+    }
 }

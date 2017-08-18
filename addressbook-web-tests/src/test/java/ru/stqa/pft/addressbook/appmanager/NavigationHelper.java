@@ -10,4 +10,8 @@ public class NavigationHelper extends BaseHelper {
     }
 
     public void gotoGroupPage() {click(By.linkText("groups"));}
+
+    public void goHome() {
+        click(By.linkText("home"));
+    }
 }

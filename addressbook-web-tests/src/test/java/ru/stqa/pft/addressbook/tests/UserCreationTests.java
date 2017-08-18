@@ -7,6 +7,8 @@ public class UserCreationTests extends TestBase {
 
     @Test
     public void testUserCreation() {
+        app.getNavigationHelper()
+           .goHome();
         app.getContactHelper()
            .initUserCreation();
         app.getContactHelper()
