@@ -12,7 +12,7 @@ public class UserCreationTests extends TestBase {
         app.getContactHelper()
            .initUserCreation();
         app.getContactHelper()
-           .fillNewUserForm(new UserData("First Name", "Middle Name", "Last Name", "Nick Name", "Title", "Company", "Address", "111", "222", "333", "444", "email1@gmail.com", "email2@gmail.com", "email3@gmail.com", "www.google.com", "Address2", "55555", "Notes"));
+           .fillNewUserForm(new UserData("First Name", "Middle Name", "Last Name", "Nick Name", "Title", "Company", "Address", "111", "222", "333", "444", "email1@gmail.com", "email2@gmail.com", "email3@gmail.com", "www.google.com", "Address2", "55555", "Notes", "test1"), true);
         app.getContactHelper()
            .submitNewUserForm();
     }
