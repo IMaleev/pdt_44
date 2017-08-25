@@ -48,4 +48,8 @@ public class GroupHelper extends BaseHelper {
     public boolean isThereAGroup() {
          return isElementPresent(By.name("selected[]"));
     }
+
+    public boolean isThereAGroupWithName(String groupName) {
+        return isElementPresent(By.xpath("//span[(@class='group') and (text()='"+groupName+"')]"));
+    }
 }

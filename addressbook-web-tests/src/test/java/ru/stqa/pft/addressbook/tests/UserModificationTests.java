@@ -9,6 +9,11 @@ public class UserModificationTests extends TestBase {
     public void testUserModification() {
         app.getNavigationHelper()
            .goHome();
+        if (!app.getContactHelper().isThereAUser()) {
+            app.getContactHelper().createUser(new UserData("First Name", "Middle Name", "Last Name", "Nick Name", "Title", "Company", "Address", "111", "222", "333", "444", "email1@gmail.com", "email2@gmail.com", "email3@gmail.com", "www.google.com", "Address2", "55555", "Notes", null));
+            app.getNavigationHelper()
+               .goHome();
+        }
         app.getContactHelper()
            .selectUser();
         app.getContactHelper()

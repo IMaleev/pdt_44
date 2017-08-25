@@ -34,7 +34,10 @@ public class ContactHelper extends BaseHelper {
         type(By.name("notes"), userData.getNotes());
 
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(userData.getGroup());
+            Select groupSelector = new Select(wd.findElement(By.name("new_group")));
+            if (userData.getGroup() != null) {
+                groupSelector.selectByVisibleText(userData.getGroup());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -65,4 +68,15 @@ public class ContactHelper extends BaseHelper {
     public void submitUserModificationForm() {
         click(By.xpath("//div[@id='content']/form[1]/input[22]"));
     }
+
+    public boolean isThereAUser() {
+        return isElementPresent(By.name("selected[]"));
+    }
+
+    public void createUser(UserData userData) {
+        initUserCreation();
+        fillNewUserForm(userData, true);
+        submitNewUserForm();
+    }
+
 }
