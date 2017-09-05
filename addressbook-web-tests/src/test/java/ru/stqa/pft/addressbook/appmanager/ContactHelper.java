@@ -2,10 +2,13 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.UserData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends BaseHelper {
 
@@ -47,9 +50,10 @@ public class ContactHelper extends BaseHelper {
 
     public void initUserCreation() {click(By.linkText("add new"));}
 
-    public void selectUser() {
-        if (!wd.findElement(By.name("selected[]")).isSelected()) {
-            click(By.name("selected[]"));
+    public void selectUser(int index) {
+        WebElement element = wd.findElements(By.name("entry")).get(index).findElement(By.name("selected[]"));
+        if (!element.isSelected()) {
+            element.click();
         }
     }
 
@@ -79,4 +83,16 @@ public class ContactHelper extends BaseHelper {
         submitNewUserForm();
     }
 
+    public List<UserData> getUsersList() {
+        List<UserData> users = new ArrayList<>();
+        List<WebElement> entries = wd.findElements(By.name("entry"));
+        for (WebElement entry : entries) {
+            List<WebElement> cells = entry.findElements(By.tagName("td"));
+            int id = Integer.parseInt(entry.findElement(By.tagName("input")).getAttribute("value"));
+            UserData user = new UserData(cells.get(2).getText(), null, cells.get(1).getText(), null, null, null, null,
+                                         null, null, null, null, null, null, null, null, null, null, null, null, id);
+            users.add(user);
+        }
+        return users;
+    }
 }
