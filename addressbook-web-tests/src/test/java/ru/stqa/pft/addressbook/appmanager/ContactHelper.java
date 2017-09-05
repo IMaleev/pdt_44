@@ -65,8 +65,9 @@ public class ContactHelper extends BaseHelper {
         wd.switchTo().alert().accept();
     }
 
-    public void initUserModification() {
-        click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    public void initUserModification(int index) {
+        wd.findElements(By.name("entry")).get(index).findElement(By.xpath("td[8]/a/img")).click();
+//        entry.findElement(By.xpath("//img[@title='Edit']")).click();
     }
 
     public void submitUserModificationForm() {

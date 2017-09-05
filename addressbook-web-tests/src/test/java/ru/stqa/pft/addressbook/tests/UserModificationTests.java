@@ -22,7 +22,7 @@ public class UserModificationTests extends TestBase {
         app.getContactHelper()
            .selectUser(before.size()-1);
         app.getContactHelper()
-           .initUserModification();
+           .initUserModification(before.size()-1);
         UserData newUserData = new UserData("New First Name", "New Middle Name", "New Last Name", "New Nick Name", "New Title", "New Company", "New Address", "1111", "2222", "3333", "4444", "newemail1@gmail.com", "newemail2@gmail.com", "newemail3@gmail.com", "www.newgoogle.com", "New Address2", "5555", "New Notes", null, before.get(before.size()-1).getId());
         app.getContactHelper()
            .fillNewUserForm(newUserData, false);
