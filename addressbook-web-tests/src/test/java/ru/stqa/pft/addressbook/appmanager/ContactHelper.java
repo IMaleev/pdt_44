@@ -8,12 +8,11 @@ import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.UserData;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ContactHelper extends BaseHelper {
+
+    private Contacts contactsCache = null;
 
     public ContactHelper(WebDriver wd) {
         super(wd);
@@ -80,18 +79,22 @@ public class ContactHelper extends BaseHelper {
         initUserCreation();
         fillNewUserForm(userData, true);
         submitNewUserForm();
+        contactsCache = null;
     }
 
     public Contacts all() {
-        Contacts users = new Contacts();
+        if (contactsCache != null) {
+            return new Contacts(contactsCache);
+        }
+        contactsCache = new Contacts();
         List<WebElement> entries = wd.findElements(By.name("entry"));
         for (WebElement entry : entries) {
             List<WebElement> cells = entry.findElements(By.tagName("td"));
             int id = Integer.parseInt(entry.findElement(By.tagName("input")).getAttribute("value"));
             UserData user = new UserData().withFirstName(cells.get(2).getText()).withLastName(cells.get(1).getText()).withId(id);
-            users.add(user);
+            contactsCache.add(user);
         }
-        return users;
+        return new Contacts(contactsCache);
     }
 
     public void modify(UserData userData) {
@@ -99,12 +102,14 @@ public class ContactHelper extends BaseHelper {
         initUserModification(userData.getId());
         fillNewUserForm(userData, false);
         submitUserModificationForm();
+        contactsCache = null;
     }
 
     public void delete(UserData userData) {
         selectUserById(userData.getId());
         deleteSelectedUser();
         submitUserDeletion();
+        contactsCache = null;
     }
 
 }
