@@ -37,15 +37,15 @@ public class ApplicationManager {
 
     public void stop() {wd.quit();}
 
-    public GroupHelper getGroupHelper() {
+    public GroupHelper groups() {
         return groupHelper;
     }
 
-    public NavigationHelper getNavigationHelper() {
+    public NavigationHelper goTo() {
         return navigationHelper;
     }
 
-    public ContactHelper getContactHelper() {
+    public ContactHelper contacts() {
         return contactHelper;
     }
 }

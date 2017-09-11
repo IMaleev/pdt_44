@@ -5,10 +5,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends BaseHelper {
 
@@ -50,8 +53,8 @@ public class ContactHelper extends BaseHelper {
 
     public void initUserCreation() {click(By.linkText("add new"));}
 
-    public void selectUser(int index) {
-        WebElement element = wd.findElements(By.name("entry")).get(index).findElement(By.name("selected[]"));
+    public void selectUserById(int id) {
+        WebElement element = wd.findElement(By.xpath("//tr[@name='entry']//input[@value='"+id+"']"));
         if (!element.isSelected()) {
             element.click();
         }
@@ -65,35 +68,43 @@ public class ContactHelper extends BaseHelper {
         wd.switchTo().alert().accept();
     }
 
-    public void initUserModification(int index) {
-        wd.findElements(By.name("entry")).get(index).findElement(By.xpath("td[8]/a/img")).click();
-//        entry.findElement(By.xpath("//img[@title='Edit']")).click();
+    public void initUserModification(int id) {
+        wd.findElement(By.xpath("//tr[@name='entry']//input[@value='"+id+"']/../../td[8]/a/img")).click();
     }
 
     public void submitUserModificationForm() {
         click(By.xpath("//div[@id='content']/form[1]/input[22]"));
     }
 
-    public boolean isThereAUser() {
-        return isElementPresent(By.name("selected[]"));
-    }
-
-    public void createUser(UserData userData) {
+    public void create(UserData userData) {
         initUserCreation();
         fillNewUserForm(userData, true);
         submitNewUserForm();
     }
 
-    public List<UserData> getUsersList() {
-        List<UserData> users = new ArrayList<>();
+    public Contacts all() {
+        Contacts users = new Contacts();
         List<WebElement> entries = wd.findElements(By.name("entry"));
         for (WebElement entry : entries) {
             List<WebElement> cells = entry.findElements(By.tagName("td"));
             int id = Integer.parseInt(entry.findElement(By.tagName("input")).getAttribute("value"));
-            UserData user = new UserData(cells.get(2).getText(), null, cells.get(1).getText(), null, null, null, null,
-                                         null, null, null, null, null, null, null, null, null, null, null, null, id);
+            UserData user = new UserData().withFirstName(cells.get(2).getText()).withLastName(cells.get(1).getText()).withId(id);
             users.add(user);
         }
         return users;
     }
+
+    public void modify(UserData userData) {
+        selectUserById(userData.getId());
+        initUserModification(userData.getId());
+        fillNewUserForm(userData, false);
+        submitUserModificationForm();
+    }
+
+    public void delete(UserData userData) {
+        selectUserById(userData.getId());
+        deleteSelectedUser();
+        submitUserDeletion();
+    }
+
 }

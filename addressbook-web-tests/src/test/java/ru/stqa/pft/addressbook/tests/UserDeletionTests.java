@@ -1,36 +1,45 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.List;
+import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserDeletionTests extends TestBase {
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo()
+           .homePage();
+        if (app.contacts().all().size() == 0) {
+            app.contacts().create(new UserData().withFirstName("First Name").withMiddleName("Middle Name").withLastName("Last Name")
+                                                .withNickName("Nick Name").withTitle("Title").withCompany("Company").withAddress("Address")
+                                                .withHomePhone("111").withMobilePhone("222").withWorkPhone("333").withFax("444")
+                                                .withEmail1("email1@gmail.com").withEmail2("email2@gmail.com").withEmail3("email3@gmail.com")
+                                                .withWebSite("www.google.com").withAddress2("Address2").withHomePhone2("55555").withNotes("Notes").withGroup("test1"));
+            app.goTo()
+               .homePage();
+        }
+    }
+
 
     @Test
     public void testUserDeletion() {
-        app.getNavigationHelper()
-           .goHome();
-        if (!app.getContactHelper().isThereAUser()) {
-            app.getContactHelper().createUser(new UserData("First Name", "Middle Name", "Last Name", "Nick Name", "Title", "Company", "Address", "111", "222", "333", "444", "email1@gmail.com", "email2@gmail.com", "email3@gmail.com", "www.google.com", "Address2", "55555", "Notes", "test1"));
-            app.getNavigationHelper()
-               .goHome();
-        }
-        List<UserData> before = app.getContactHelper().getUsersList();
-        app.getContactHelper()
-           .selectUser(before.size()-1);
-        app.getContactHelper()
-           .deleteSelectedUser();
-        app.getContactHelper()
-           .submitUserDeletion();
-        app.getNavigationHelper()
-           .goHome();
-        List<UserData> after = app.getContactHelper().getUsersList();
+        Contacts before = app.contacts().all();
+        UserData deletedContact = before.iterator().next();
+        app.contacts().delete(deletedContact);
+        app.goTo()
+           .homePage();
+        Contacts after = app.contacts().all();
 
-        Assert.assertEquals(after.size(), before.size()-1);
-
-        before.remove(before.size()-1);
-        Assert.assertEquals(before, after);
+        assertThat(after.size(), equalTo(before.size() - 1));
+        assertThat(after, equalTo(before.without(deletedContact)));
     }
+
 }

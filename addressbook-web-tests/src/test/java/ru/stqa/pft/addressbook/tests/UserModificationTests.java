@@ -1,45 +1,52 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserModificationTests extends TestBase {
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo()
+           .homePage();
+        if (app.contacts().all().size() == 0) {
+            app.contacts().create(new UserData().withFirstName("First Name").withMiddleName("Middle Name").withLastName("Last Name")
+                                                .withNickName("Nick Name").withTitle("Title").withCompany("Company").withAddress("Address")
+                                                .withHomePhone("111").withMobilePhone("222").withWorkPhone("333").withFax("444")
+                                                .withEmail1("email1@gmail.com").withEmail2("email2@gmail.com").withEmail3("email3@gmail.com")
+                                                .withWebSite("www.google.com").withAddress2("Address2").withHomePhone2("55555").withNotes("Notes").withGroup("test1"));
+            app.goTo()
+               .homePage();
+        }
+    }
+
     @Test
     public void testUserModification() {
-        app.getNavigationHelper()
-           .goHome();
-        if (!app.getContactHelper().isThereAUser()) {
-            app.getContactHelper().createUser(new UserData("First Name", "Middle Name", "Last Name", "Nick Name", "Title", "Company", "Address", "111", "222", "333", "444", "email1@gmail.com", "email2@gmail.com", "email3@gmail.com", "www.google.com", "Address2", "55555", "Notes", null));
-            app.getNavigationHelper()
-               .goHome();
-        }
-        List<UserData> before = app.getContactHelper().getUsersList();
-        app.getContactHelper()
-           .selectUser(before.size()-1);
-        app.getContactHelper()
-           .initUserModification(before.size()-1);
-        UserData newUserData = new UserData("New First Name", "New Middle Name", "New Last Name", "New Nick Name", "New Title", "New Company", "New Address", "1111", "2222", "3333", "4444", "newemail1@gmail.com", "newemail2@gmail.com", "newemail3@gmail.com", "www.newgoogle.com", "New Address2", "5555", "New Notes", null, before.get(before.size()-1).getId());
-        app.getContactHelper()
-           .fillNewUserForm(newUserData, false);
-        app.getContactHelper()
-           .submitUserModificationForm();
-        app.getNavigationHelper()
-           .goHome();
+        Contacts before = app.contacts().all();
+        UserData modifiedContact = before.iterator().next();
+        UserData contact = new UserData().withId(modifiedContact.getId())
+                                             .withFirstName("New First Name").withMiddleName("New Middle Name").withLastName("New Last Name")
+                                             .withNickName("New Nick Name").withTitle("New Title").withCompany("New Company").withAddress("New Address")
+                                             .withHomePhone("1111").withMobilePhone("2222").withWorkPhone("3333").withFax("4444")
+                                             .withEmail1("newemail1@gmail.com").withEmail2("newemail2@gmail.com").withEmail3("newemail3@gmail.com")
+                                             .withWebSite("www.newgoogle.com").withAddress2("New Address2").withHomePhone2("5555").withNotes("New Notes");
+        app.contacts().modify(contact);
+        app.goTo().homePage();
 
-        List<UserData> after = app.getContactHelper().getUsersList();
-        Assert.assertEquals(after.size(), before.size());
+        Contacts after = app.contacts().all();
 
-        before.remove(before.size()-1);
-        before.add(newUserData);
-
-        Comparator<? super UserData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
+        assertThat(after.size(), equalTo(before.size()));
+        assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
 }

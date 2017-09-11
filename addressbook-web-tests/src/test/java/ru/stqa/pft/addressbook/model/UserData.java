@@ -1,96 +1,26 @@
 package ru.stqa.pft.addressbook.model;
 
 public class UserData {
-    private int id;
-    private final String firstName;
-    private final String middleName;
-    private final String lastName;
-    private final String nickName;
-    private final String title;
-    private final String company;
-    private final String address;
-    private final String homePhone;
-    private final String mobilePhone;
-    private final String workPhone;
-    private final String fax;
-    private final String email1;
-    private final String email2;
-    private final String email3;
-    private final String webSite;
-    private final String address2;
-    private final String homePhone2;
-    private final String notes;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
-
-        UserData userData = (UserData) o;
-
-        if (firstName != null ? !firstName.equals(userData.firstName) : userData.firstName != null) { return false; }
-        return lastName != null ? lastName.equals(userData.lastName) : userData.lastName == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        return result;
-    }
-
-    private final String group;
-
-    public UserData(String firstName, String middleName, String lastName, String nickName, String title, String company,
-                    String address, String homePhone, String mobilePhone, String workPhone, String fax, String email1,
-                    String email2, String email3, String webSite, String address2, String homePhone2, String notes, String group, int id) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.nickName = nickName;
-        this.title = title;
-        this.company = company;
-        this.address = address;
-        this.homePhone = homePhone;
-        this.mobilePhone = mobilePhone;
-        this.workPhone = workPhone;
-        this.fax = fax;
-        this.email1 = email1;
-        this.email2 = email2;
-        this.email3 = email3;
-        this.webSite = webSite;
-        this.address2 = address2;
-        this.homePhone2 = homePhone2;
-        this.notes = notes;
-        this.group = group;
-        this.id = id;
-    }
-
-    public UserData(String firstName, String middleName, String lastName, String nickName, String title, String company,
-                    String address, String homePhone, String mobilePhone, String workPhone, String fax, String email1,
-                    String email2, String email3, String webSite, String address2, String homePhone2, String notes, String group) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.nickName = nickName;
-        this.title = title;
-        this.company = company;
-        this.address = address;
-        this.homePhone = homePhone;
-        this.mobilePhone = mobilePhone;
-        this.workPhone = workPhone;
-        this.fax = fax;
-        this.email1 = email1;
-        this.email2 = email2;
-        this.email3 = email3;
-        this.webSite = webSite;
-        this.address2 = address2;
-        this.homePhone2 = homePhone2;
-        this.notes = notes;
-        this.group = group;
-        this.id = Integer.MAX_VALUE;
-    }
+    private int id = Integer.MAX_VALUE;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String nickName;
+    private String title;
+    private String company;
+    private String address;
+    private String homePhone;
+    private String mobilePhone;
+    private String workPhone;
+    private String fax;
+    private String email1;
+    private String email2;
+    private String email3;
+    private String webSite;
+    private String address2;
+    private String homePhone2;
+    private String notes;
+    private String group;
 
     public String getFirstName() {
         return firstName;
@@ -172,8 +102,104 @@ public class UserData {
         return id;
     }
 
-    public void setId(int id) {
+    public UserData withId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public UserData withFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public UserData withMiddleName(String middleName) {
+        this.middleName = middleName;
+        return this;
+    }
+
+    public UserData withLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public UserData withNickName(String nickName) {
+        this.nickName = nickName;
+        return this;
+    }
+
+    public UserData withTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public UserData withCompany(String company) {
+        this.company = company;
+        return this;
+    }
+
+    public UserData withAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public UserData withHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+        return this;
+    }
+
+    public UserData withMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+        return this;
+    }
+
+    public UserData withWorkPhone(String workPhone) {
+        this.workPhone = workPhone;
+        return this;
+    }
+
+    public UserData withFax(String fax) {
+        this.fax = fax;
+        return this;
+    }
+
+    public UserData withEmail1(String email1) {
+        this.email1 = email1;
+        return this;
+    }
+
+    public UserData withEmail2(String email2) {
+        this.email2 = email2;
+        return this;
+    }
+
+    public UserData withEmail3(String email3) {
+        this.email3 = email3;
+        return this;
+    }
+
+    public UserData withWebSite(String webSite) {
+        this.webSite = webSite;
+        return this;
+    }
+
+    public UserData withAddress2(String address2) {
+        this.address2 = address2;
+        return this;
+    }
+
+    public UserData withHomePhone2(String homePhone2) {
+        this.homePhone2 = homePhone2;
+        return this;
+    }
+
+    public UserData withNotes(String notes) {
+        this.notes = notes;
+        return this;
+    }
+
+    public UserData withGroup(String group) {
+        this.group = group;
+        return this;
     }
 
     @Override
@@ -185,4 +211,24 @@ public class UserData {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+
+        UserData userData = (UserData) o;
+
+        if (id != userData.id) { return false; }
+        if (firstName != null ? !firstName.equals(userData.firstName) : userData.firstName != null) { return false; }
+        return lastName != null ? lastName.equals(userData.lastName) : userData.lastName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        return result;
+    }
 }
