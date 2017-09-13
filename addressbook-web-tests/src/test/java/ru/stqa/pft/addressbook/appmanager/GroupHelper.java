@@ -86,4 +86,8 @@ public class GroupHelper extends BaseHelper {
         groupsCache = null;
         returnToGroupPage();
     }
+
+    public int count() {
+        return wd.findElements(By.xpath("//span[@class='group']")).size();
+    }
 }

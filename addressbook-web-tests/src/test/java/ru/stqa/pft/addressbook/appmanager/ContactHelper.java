@@ -112,4 +112,7 @@ public class ContactHelper extends BaseHelper {
         contactsCache = null;
     }
 
+    public int count() {
+        return wd.findElements(By.xpath("//tr[@name='entry']")).size();
+    }
 }

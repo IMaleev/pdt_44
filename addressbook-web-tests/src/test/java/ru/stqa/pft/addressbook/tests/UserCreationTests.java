@@ -33,9 +33,8 @@ public class UserCreationTests extends TestBase {
         app.contacts().create(userData);
         app.goTo()
            .homePage();
+        assertThat(app.contacts().count(), equalTo(before.size() + 1));
         Contacts after = app.contacts().all();
-
-        assertThat(after.size(), equalTo(before.size() + 1));
         assertThat(after, equalTo(before.withAdded(userData.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 

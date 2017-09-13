@@ -43,10 +43,8 @@ public class UserModificationTests extends TestBase {
                                              .withWebSite("www.newgoogle.com").withAddress2("New Address2").withHomePhone2("5555").withNotes("New Notes");
         app.contacts().modify(contact);
         app.goTo().homePage();
-
+        assertThat(app.contacts().count(), equalTo(before.size()));
         Contacts after = app.contacts().all();
-
-        assertThat(after.size(), equalTo(before.size()));
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
 }
