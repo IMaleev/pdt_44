@@ -21,6 +21,8 @@ public class UserData {
     private String homePhone2;
     private String notes;
     private String group;
+    private String allPhones;
+    private String allEmails;
 
     public String getFirstName() {
         return firstName;
@@ -98,8 +100,16 @@ public class UserData {
         return group;
     }
 
+    public String getAllPhones() {
+        return allPhones;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public String getAllEmails() {
+        return allEmails;
     }
 
     public UserData withId(int id) {
@@ -199,6 +209,17 @@ public class UserData {
 
     public UserData withGroup(String group) {
         this.group = group;
+        return this;
+    }
+
+    public UserData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+
+    }
+
+    public UserData withAllEmails(String allEmails) {
+        this.allEmails = allEmails;
         return this;
     }
 
