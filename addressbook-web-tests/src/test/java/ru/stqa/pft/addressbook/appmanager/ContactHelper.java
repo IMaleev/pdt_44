@@ -37,6 +37,7 @@ public class ContactHelper extends BaseHelper {
         type(By.name("address2"), userData.getAddress2());
         type(By.name("phone2"), userData.getHomePhone2());
         type(By.name("notes"), userData.getNotes());
+        attach(By.name("photo"), userData.getPhoto());
 
         if (creation) {
             Select groupSelector = new Select(wd.findElement(By.name("new_group")));
