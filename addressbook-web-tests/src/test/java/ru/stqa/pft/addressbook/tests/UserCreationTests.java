@@ -1,39 +1,101 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.UserData;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserCreationTests extends TestBase {
 
-    @Test
-    public void testUserCreation() {
+    @DataProvider
+    public Iterator<Object[]> validContactsCsv() throws IOException {
+        List<Object[]> list = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
+        while (reader.ready()) {
+            String line = reader.readLine();
+            String[] split = line.split(";");
+            list.add(new Object[] {new UserData().withFirstName(split[0])
+                                                 .withMiddleName(split[1])
+                                                 .withLastName(split[2])
+                                                 .withNickName(split[3])
+                                                 .withTitle(split[4])
+                                                 .withCompany(split[5])
+                                                 .withAddress(split[6])
+                                                 .withHomePhone(split[7])
+                                                 .withMobilePhone(split[8])
+                                                 .withWorkPhone(split[9])
+                                                 .withFax(split[10])
+                                                 .withEmail1(split[11])
+                                                 .withEmail2(split[12])
+                                                 .withEmail3(split[13])
+                                                 .withWebSite(split[14])
+                                                 .withAddress2(split[15])
+                                                 .withHomePhone2(split[16])
+                                                 .withNotes(split[17]).withGroup(split[18])});
+        }
+        return list.iterator();
+    }
+
+    @DataProvider
+    public Iterator<Object[]> validContactsXml() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")));
+        String xml = "";
+        while (reader.ready()) {
+            String line = reader.readLine();
+            xml += line;
+        }
+        XStream xstream = new XStream();
+        xstream.processAnnotations(UserData.class);
+        List<UserData> contacts = (List<UserData>) xstream.fromXML(xml);
+        return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+    }
+
+    @DataProvider
+    public Iterator<Object[]> validContactsJson() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
+        String json = "";
+        while (reader.ready()) {
+            String line = reader.readLine();
+            json += line;
+        }
+        Gson gson = new Gson();
+        List<UserData> contacts = gson.fromJson(json, new TypeToken<List<UserData>>(){}.getType());
+        return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+    }
+
+    @Test(dataProvider = "validContactsJson")
+    public void testUserCreation(UserData contact) {
         File photo = new File("src/test/resources/photo.jpg");
-        UserData userData = new UserData().withFirstName("First Name").withMiddleName("Middle Name").withLastName("Last Name")
-                                          .withNickName("Nick Name").withTitle("Title").withCompany("Company").withAddress("Address")
-                                          .withHomePhone("111").withMobilePhone("222").withWorkPhone("333").withFax("444")
-                                          .withEmail1("email1@gmail.com").withEmail2("email2@gmail.com").withEmail3("email3@gmail.com")
-                                          .withWebSite("www.google.com").withAddress2("Address2").withHomePhone2("55555").withNotes("Notes").withGroup("test1").withPhoto(photo);
         app.goTo()
            .groupPage();
-        if (!app.groups().isThereAGroupWithName(userData.getGroup())) {
-            app.groups().create(new GroupData().withName(userData.getGroup()).withHeader("test2").withHeader("test3"));
+        if (!app.groups().isThereAGroupWithName(contact.getGroup())) {
+            app.groups().create(new GroupData().withName(contact.getGroup()).withHeader("test2").withHeader("test3"));
         }
         app.goTo()
            .homePage();
         Contacts before = app.contacts().all();
-        app.contacts().create(userData);
+        app.contacts().create(contact);
         app.goTo()
            .homePage();
         assertThat(app.contacts().count(), equalTo(before.size() + 1));
         Contacts after = app.contacts().all();
-        assertThat(after, equalTo(before.withAdded(userData.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 
 }
