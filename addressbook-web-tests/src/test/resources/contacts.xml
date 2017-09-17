@@ -1,0 +1,107 @@
+<list>
+  <contact>
+    <firstName>First Name 0</firstName>
+    <middleName>Middle Name 0</middleName>
+    <lastName>Last Name 0</lastName>
+    <nickName>Nick Name 0</nickName>
+    <title>Title 0</title>
+    <company>Company 0</company>
+    <address>Address 0</address>
+    <homePhone>0</homePhone>
+    <mobilePhone>0</mobilePhone>
+    <workPhone>0</workPhone>
+    <fax>0</fax>
+    <email1>email10@gmail.com</email1>
+    <email2>email20@gmail.com</email2>
+    <email3>email30@gmail.com</email3>
+    <webSite>www.site0.com</webSite>
+    <address2>Address2 0</address2>
+    <homePhone2>20</homePhone2>
+    <notes>Notes 0</notes>
+    <group>Group 0</group>
+  </contact>
+  <contact>
+    <firstName>First Name 1</firstName>
+    <middleName>Middle Name 1</middleName>
+    <lastName>Last Name 1</lastName>
+    <nickName>Nick Name 1</nickName>
+    <title>Title 1</title>
+    <company>Company 1</company>
+    <address>Address 1</address>
+    <homePhone>1</homePhone>
+    <mobilePhone>1</mobilePhone>
+    <workPhone>1</workPhone>
+    <fax>1</fax>
+    <email1>email11@gmail.com</email1>
+    <email2>email21@gmail.com</email2>
+    <email3>email31@gmail.com</email3>
+    <webSite>www.site1.com</webSite>
+    <address2>Address2 1</address2>
+    <homePhone2>21</homePhone2>
+    <notes>Notes 1</notes>
+    <group>Group 1</group>
+  </contact>
+  <contact>
+    <firstName>First Name 2</firstName>
+    <middleName>Middle Name 2</middleName>
+    <lastName>Last Name 2</lastName>
+    <nickName>Nick Name 2</nickName>
+    <title>Title 2</title>
+    <company>Company 2</company>
+    <address>Address 2</address>
+    <homePhone>2</homePhone>
+    <mobilePhone>2</mobilePhone>
+    <workPhone>2</workPhone>
+    <fax>2</fax>
+    <email1>email12@gmail.com</email1>
+    <email2>email22@gmail.com</email2>
+    <email3>email32@gmail.com</email3>
+    <webSite>www.site2.com</webSite>
+    <address2>Address2 2</address2>
+    <homePhone2>22</homePhone2>
+    <notes>Notes 2</notes>
+    <group>Group 2</group>
+  </contact>
+  <contact>
+    <firstName>First Name 3</firstName>
+    <middleName>Middle Name 3</middleName>
+    <lastName>Last Name 3</lastName>
+    <nickName>Nick Name 3</nickName>
+    <title>Title 3</title>
+    <company>Company 3</company>
+    <address>Address 3</address>
+    <homePhone>3</homePhone>
+    <mobilePhone>3</mobilePhone>
+    <workPhone>3</workPhone>
+    <fax>3</fax>
+    <email1>email13@gmail.com</email1>
+    <email2>email23@gmail.com</email2>
+    <email3>email33@gmail.com</email3>
+    <webSite>www.site3.com</webSite>
+    <address2>Address2 3</address2>
+    <homePhone2>23</homePhone2>
+    <notes>Notes 3</notes>
+    <group>Group 3</group>
+  </contact>
+  <contact>
+    <firstName>First Name 4</firstName>
+    <middleName>Middle Name 4</middleName>
+    <lastName>Last Name 4</lastName>
+    <nickName>Nick Name 4</nickName>
+    <title>Title 4</title>
+    <company>Company 4</company>
+    <address>Address 4</address>
+    <homePhone>4</homePhone>
+    <mobilePhone>4</mobilePhone>
+    <workPhone>4</workPhone>
+    <fax>4</fax>
+    <email1>email14@gmail.com</email1>
+    <email2>email24@gmail.com</email2>
+    <email3>email34@gmail.com</email3>
+    <webSite>www.site4.com</webSite>
+    <address2>Address2 4</address2>
+    <homePhone2>24</homePhone2>
+    <notes>Notes 4</notes>
+    <group>Group 4</group>
+  </contact>
+</list>
