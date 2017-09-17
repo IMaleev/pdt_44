@@ -90,7 +90,7 @@ public class UserCreationTests extends TestBase {
         app.goTo()
            .homePage();
         Contacts before = app.contacts().all();
-        app.contacts().create(contact);
+        app.contacts().create(contact.withPhoto(photo));
         app.goTo()
            .homePage();
         assertThat(app.contacts().count(), equalTo(before.size() + 1));
