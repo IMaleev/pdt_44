@@ -54,32 +54,32 @@ public class ContactDataGenerator {
     private void saveAsJson(List<UserData> contacts, File file) throws IOException {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
         String json = gson.toJson(contacts);
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        try(Writer writer = new FileWriter(file)) {
+            writer.write(json);
+        }
     }
 
     private void saveAsXml(List<UserData> contacts, File file) throws IOException {
         XStream xstream = new XStream();
         xstream.processAnnotations(UserData.class);
         String xml = xstream.toXML(contacts);
-        Writer writer = new FileWriter(file);
-        writer.write(xml);
-        writer.close();
+        try(Writer writer = new FileWriter(file)) {
+            writer.write(xml);
+        }
     }
 
     private void saveAsCsv(List<UserData> contacts, File file) throws IOException {
-        Writer writer = new FileWriter(file);
-        for (UserData contact: contacts) {
-            writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
-                                       contact.getFirstName(), contact.getMiddleName(), contact.getLastName(),
-                                       contact.getNickName(), contact.getTitle(), contact.getCompany(), contact.getAddress(),
-                                       contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone(), contact.getFax(),
-                                       contact.getEmail1(), contact.getEmail2(), contact.getEmail3(),
-                                       contact.getWebSite(), contact.getAddress2(), contact.getHomePhone2(), contact.getNotes(),
-                                       contact.getGroup()));
+        try(Writer writer = new FileWriter(file)) {
+            for (UserData contact: contacts) {
+                writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+                                           contact.getFirstName(), contact.getMiddleName(), contact.getLastName(),
+                                           contact.getNickName(), contact.getTitle(), contact.getCompany(), contact.getAddress(),
+                                           contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone(), contact.getFax(),
+                                           contact.getEmail1(), contact.getEmail2(), contact.getEmail3(),
+                                           contact.getWebSite(), contact.getAddress2(), contact.getHomePhone2(), contact.getNotes(),
+                                           contact.getGroup()));
+            }
         }
-        writer.close();
     }
 
     private List<UserData> GenerateContacts(int count) {

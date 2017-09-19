@@ -26,57 +26,66 @@ public class UserCreationTests extends TestBase {
     @DataProvider
     public Iterator<Object[]> validContactsCsv() throws IOException {
         List<Object[]> list = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")));
-        while (reader.ready()) {
-            String line = reader.readLine();
-            String[] split = line.split(";");
-            list.add(new Object[] {new UserData().withFirstName(split[0])
-                                                 .withMiddleName(split[1])
-                                                 .withLastName(split[2])
-                                                 .withNickName(split[3])
-                                                 .withTitle(split[4])
-                                                 .withCompany(split[5])
-                                                 .withAddress(split[6])
-                                                 .withHomePhone(split[7])
-                                                 .withMobilePhone(split[8])
-                                                 .withWorkPhone(split[9])
-                                                 .withFax(split[10])
-                                                 .withEmail1(split[11])
-                                                 .withEmail2(split[12])
-                                                 .withEmail3(split[13])
-                                                 .withWebSite(split[14])
-                                                 .withAddress2(split[15])
-                                                 .withHomePhone2(split[16])
-                                                 .withNotes(split[17]).withGroup(split[18])});
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.csv")))) {
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] split = line.split(";");
+                list.add(new Object[] { new UserData().withFirstName(split[0])
+                                                      .withMiddleName(split[1])
+                                                      .withLastName(split[2])
+                                                      .withNickName(split[3])
+                                                      .withTitle(split[4])
+                                                      .withCompany(split[5])
+                                                      .withAddress(split[6])
+                                                      .withHomePhone(split[7])
+                                                      .withMobilePhone(split[8])
+                                                      .withWorkPhone(split[9])
+                                                      .withFax(split[10])
+                                                      .withEmail1(split[11])
+                                                      .withEmail2(split[12])
+                                                      .withEmail3(split[13])
+                                                      .withWebSite(split[14])
+                                                      .withAddress2(split[15])
+                                                      .withHomePhone2(split[16])
+                                                      .withNotes(split[17]).withGroup(split[18]) });
+            }
+            return list.iterator();
         }
-        return list.iterator();
     }
 
     @DataProvider
     public Iterator<Object[]> validContactsXml() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")));
-        String xml = "";
-        while (reader.ready()) {
-            String line = reader.readLine();
-            xml += line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
+            String xml = "";
+            while (reader.ready()) {
+                String line = reader.readLine();
+                xml += line;
+            }
+            XStream xstream = new XStream();
+            xstream.processAnnotations(UserData.class);
+            List<UserData> contacts = (List<UserData>) xstream.fromXML(xml);
+            return contacts.stream()
+                           .map((g) -> new Object[] { g })
+                           .collect(Collectors.toList())
+                           .iterator();
         }
-        XStream xstream = new XStream();
-        xstream.processAnnotations(UserData.class);
-        List<UserData> contacts = (List<UserData>) xstream.fromXML(xml);
-        return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
 
     @DataProvider
     public Iterator<Object[]> validContactsJson() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
-        String json = "";
-        while (reader.ready()) {
-            String line = reader.readLine();
-            json += line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
+            String json = "";
+            while (reader.ready()) {
+                String line = reader.readLine();
+                json += line;
+            }
+            Gson gson = new Gson();
+            List<UserData> contacts = gson.fromJson(json, new TypeToken<List<UserData>>() {}.getType());
+            return contacts.stream()
+                           .map((g) -> new Object[] { g })
+                           .collect(Collectors.toList())
+                           .iterator();
         }
-        Gson gson = new Gson();
-        List<UserData> contacts = gson.fromJson(json, new TypeToken<List<UserData>>(){}.getType());
-        return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
 
     @Test(dataProvider = "validContactsJson")
