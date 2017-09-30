@@ -6,7 +6,7 @@ import com.beust.jcommander.ParameterException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
-import ru.stqa.pft.addressbook.model.UserData;
+import ru.stqa.pft.addressbook.model.ContactData;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,7 +39,7 @@ public class ContactDataGenerator {
     }
 
     private void run() throws IOException {
-        List<UserData> contacts = GenerateContacts(count);
+        List<ContactData> contacts = GenerateContacts(count);
         if (format.equals("csv")) {
             saveAsCsv(contacts, new File(file));
         } else if (format.equals("xml")) {
@@ -51,7 +51,7 @@ public class ContactDataGenerator {
         }
     }
 
-    private void saveAsJson(List<UserData> contacts, File file) throws IOException {
+    private void saveAsJson(List<ContactData> contacts, File file) throws IOException {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
         String json = gson.toJson(contacts);
         try(Writer writer = new FileWriter(file)) {
@@ -59,18 +59,18 @@ public class ContactDataGenerator {
         }
     }
 
-    private void saveAsXml(List<UserData> contacts, File file) throws IOException {
+    private void saveAsXml(List<ContactData> contacts, File file) throws IOException {
         XStream xstream = new XStream();
-        xstream.processAnnotations(UserData.class);
+        xstream.processAnnotations(ContactData.class);
         String xml = xstream.toXML(contacts);
         try(Writer writer = new FileWriter(file)) {
             writer.write(xml);
         }
     }
 
-    private void saveAsCsv(List<UserData> contacts, File file) throws IOException {
+    private void saveAsCsv(List<ContactData> contacts, File file) throws IOException {
         try(Writer writer = new FileWriter(file)) {
-            for (UserData contact: contacts) {
+            for (ContactData contact: contacts) {
                 writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
                                            contact.getFirstName(), contact.getMiddleName(), contact.getLastName(),
                                            contact.getNickName(), contact.getTitle(), contact.getCompany(), contact.getAddress(),
@@ -82,28 +82,28 @@ public class ContactDataGenerator {
         }
     }
 
-    private List<UserData> GenerateContacts(int count) {
-        List<UserData> contacts = new ArrayList<>();
+    private List<ContactData> GenerateContacts(int count) {
+        List<ContactData> contacts = new ArrayList<>();
         for (int i = 0; i<count; i++) {
-            contacts.add(new UserData().withFirstName(String.format("First Name %s", i))
-                                       .withMiddleName(String.format("Middle Name %s", i))
-                                       .withLastName(String.format("Last Name %s", i))
-                                       .withNickName(String.format("Nick Name %s", i))
-                                       .withTitle(String.format("Title %s", i))
-                                       .withCompany(String.format("Company %s", i))
-                                       .withAddress(String.format("Address %s", i))
-                                       .withHomePhone(String.format("%s", i))
-                                       .withMobilePhone(String.format("%s", i))
-                                       .withWorkPhone(String.format("%s", i))
-                                       .withFax(String.format("%s", i))
-                                       .withEmail1(String.format("email1%s@gmail.com", i))
-                                       .withEmail2(String.format("email2%s@gmail.com", i))
-                                       .withEmail3(String.format("email3%s@gmail.com", i))
-                                       .withWebSite(String.format("www.site%s.com", i))
-                                       .withAddress2(String.format("Address2 %s", i))
-                                       .withHomePhone2(String.format("2%s", i))
-                                       .withNotes(String.format("Notes %s", i))
-                                       .withGroup(String.format("Group %s", i)));
+            contacts.add(new ContactData().withFirstName(String.format("First Name %s", i))
+                                          .withMiddleName(String.format("Middle Name %s", i))
+                                          .withLastName(String.format("Last Name %s", i))
+                                          .withNickName(String.format("Nick Name %s", i))
+                                          .withTitle(String.format("Title %s", i))
+                                          .withCompany(String.format("Company %s", i))
+                                          .withAddress(String.format("Address %s", i))
+                                          .withHomePhone(String.format("%s", i))
+                                          .withMobilePhone(String.format("%s", i))
+                                          .withWorkPhone(String.format("%s", i))
+                                          .withFax(String.format("%s", i))
+                                          .withEmail1(String.format("email1%s@gmail.com", i))
+                                          .withEmail2(String.format("email2%s@gmail.com", i))
+                                          .withEmail3(String.format("email3%s@gmail.com", i))
+                                          .withWebSite(String.format("www.site%s.com", i))
+                                          .withAddress2(String.format("Address2 %s", i))
+                                          .withHomePhone2(String.format("2%s", i))
+                                          .withNotes(String.format("Notes %s", i))
+                                          .withGroup(String.format("Group %s", i)));
         }
         return contacts;
     }

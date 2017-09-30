@@ -5,9 +5,9 @@ import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
-import ru.stqa.pft.addressbook.model.UserData;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class UserCreationTests extends TestBase {
+public class ContactCreationTests extends TestBase {
 
     @DataProvider
     public Iterator<Object[]> validContactsCsv() throws IOException {
@@ -30,24 +30,24 @@ public class UserCreationTests extends TestBase {
             while (reader.ready()) {
                 String line = reader.readLine();
                 String[] split = line.split(";");
-                list.add(new Object[] { new UserData().withFirstName(split[0])
-                                                      .withMiddleName(split[1])
-                                                      .withLastName(split[2])
-                                                      .withNickName(split[3])
-                                                      .withTitle(split[4])
-                                                      .withCompany(split[5])
-                                                      .withAddress(split[6])
-                                                      .withHomePhone(split[7])
-                                                      .withMobilePhone(split[8])
-                                                      .withWorkPhone(split[9])
-                                                      .withFax(split[10])
-                                                      .withEmail1(split[11])
-                                                      .withEmail2(split[12])
-                                                      .withEmail3(split[13])
-                                                      .withWebSite(split[14])
-                                                      .withAddress2(split[15])
-                                                      .withHomePhone2(split[16])
-                                                      .withNotes(split[17]).withGroup(split[18]) });
+                list.add(new Object[] { new ContactData().withFirstName(split[0])
+                                                         .withMiddleName(split[1])
+                                                         .withLastName(split[2])
+                                                         .withNickName(split[3])
+                                                         .withTitle(split[4])
+                                                         .withCompany(split[5])
+                                                         .withAddress(split[6])
+                                                         .withHomePhone(split[7])
+                                                         .withMobilePhone(split[8])
+                                                         .withWorkPhone(split[9])
+                                                         .withFax(split[10])
+                                                         .withEmail1(split[11])
+                                                         .withEmail2(split[12])
+                                                         .withEmail3(split[13])
+                                                         .withWebSite(split[14])
+                                                         .withAddress2(split[15])
+                                                         .withHomePhone2(split[16])
+                                                         .withNotes(split[17]).withGroup(split[18]) });
             }
             return list.iterator();
         }
@@ -62,8 +62,8 @@ public class UserCreationTests extends TestBase {
                 xml += line;
             }
             XStream xstream = new XStream();
-            xstream.processAnnotations(UserData.class);
-            List<UserData> contacts = (List<UserData>) xstream.fromXML(xml);
+            xstream.processAnnotations(ContactData.class);
+            List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
             return contacts.stream()
                            .map((g) -> new Object[] { g })
                            .collect(Collectors.toList())
@@ -80,7 +80,7 @@ public class UserCreationTests extends TestBase {
                 json += line;
             }
             Gson gson = new Gson();
-            List<UserData> contacts = gson.fromJson(json, new TypeToken<List<UserData>>() {}.getType());
+            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {}.getType());
             return contacts.stream()
                            .map((g) -> new Object[] { g })
                            .collect(Collectors.toList())
@@ -89,7 +89,7 @@ public class UserCreationTests extends TestBase {
     }
 
     @Test(dataProvider = "validContactsJson")
-    public void testUserCreation(UserData contact) {
+    public void testUserCreation(ContactData contact) {
         File photo = new File("src/test/resources/photo.jpg");
         app.goTo()
            .groupPage();

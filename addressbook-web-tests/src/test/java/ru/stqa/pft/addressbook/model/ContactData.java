@@ -7,7 +7,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.io.File;
 
 @XStreamAlias("contact")
-public class UserData {
+public class ContactData {
 
     @XStreamOmitField
     private int id = Integer.MAX_VALUE;
@@ -145,125 +145,125 @@ public class UserData {
         return allEmails;
     }
 
-    public UserData withId(int id) {
+    public ContactData withId(int id) {
         this.id = id;
         return this;
     }
 
-    public UserData withFirstName(String firstName) {
+    public ContactData withFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
 
-    public UserData withMiddleName(String middleName) {
+    public ContactData withMiddleName(String middleName) {
         this.middleName = middleName;
         return this;
     }
 
-    public UserData withLastName(String lastName) {
+    public ContactData withLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
 
-    public UserData withNickName(String nickName) {
+    public ContactData withNickName(String nickName) {
         this.nickName = nickName;
         return this;
     }
 
-    public UserData withTitle(String title) {
+    public ContactData withTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public UserData withCompany(String company) {
+    public ContactData withCompany(String company) {
         this.company = company;
         return this;
     }
 
-    public UserData withAddress(String address) {
+    public ContactData withAddress(String address) {
         this.address = address;
         return this;
     }
 
-    public UserData withHomePhone(String homePhone) {
+    public ContactData withHomePhone(String homePhone) {
         this.homePhone = homePhone;
         return this;
     }
 
-    public UserData withMobilePhone(String mobilePhone) {
+    public ContactData withMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
         return this;
     }
 
-    public UserData withWorkPhone(String workPhone) {
+    public ContactData withWorkPhone(String workPhone) {
         this.workPhone = workPhone;
         return this;
     }
 
-    public UserData withFax(String fax) {
+    public ContactData withFax(String fax) {
         this.fax = fax;
         return this;
     }
 
-    public UserData withEmail1(String email1) {
+    public ContactData withEmail1(String email1) {
         this.email1 = email1;
         return this;
     }
 
-    public UserData withEmail2(String email2) {
+    public ContactData withEmail2(String email2) {
         this.email2 = email2;
         return this;
     }
 
-    public UserData withEmail3(String email3) {
+    public ContactData withEmail3(String email3) {
         this.email3 = email3;
         return this;
     }
 
-    public UserData withWebSite(String webSite) {
+    public ContactData withWebSite(String webSite) {
         this.webSite = webSite;
         return this;
     }
 
-    public UserData withAddress2(String address2) {
+    public ContactData withAddress2(String address2) {
         this.address2 = address2;
         return this;
     }
 
-    public UserData withHomePhone2(String homePhone2) {
+    public ContactData withHomePhone2(String homePhone2) {
         this.homePhone2 = homePhone2;
         return this;
     }
 
-    public UserData withNotes(String notes) {
+    public ContactData withNotes(String notes) {
         this.notes = notes;
         return this;
     }
 
-    public UserData withGroup(String group) {
+    public ContactData withGroup(String group) {
         this.group = group;
         return this;
     }
 
-    public UserData withAllPhones(String allPhones) {
+    public ContactData withAllPhones(String allPhones) {
         this.allPhones = allPhones;
         return this;
 
     }
 
-    public UserData withAllEmails(String allEmails) {
+    public ContactData withAllEmails(String allEmails) {
         this.allEmails = allEmails;
         return this;
     }
 
-    public UserData withPhoto(File photo) {
+    public ContactData withPhoto(File photo) {
         this.photo = photo;
         return this;
     }
 
     @Override
     public String toString() {
-        return "UserData{" +
+        return "ContactData{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -275,11 +275,11 @@ public class UserData {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
 
-        UserData userData = (UserData) o;
+        ContactData contactData = (ContactData) o;
 
-        if (id != userData.id) { return false; }
-        if (firstName != null ? !firstName.equals(userData.firstName) : userData.firstName != null) { return false; }
-        return lastName != null ? lastName.equals(userData.lastName) : userData.lastName == null;
+        if (id != contactData.id) { return false; }
+        if (firstName != null ? !firstName.equals(contactData.firstName) : contactData.firstName != null) { return false; }
+        return lastName != null ? lastName.equals(contactData.lastName) : contactData.lastName == null;
 
     }
 

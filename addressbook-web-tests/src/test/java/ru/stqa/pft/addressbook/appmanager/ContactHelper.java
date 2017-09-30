@@ -5,8 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
-import ru.stqa.pft.addressbook.model.UserData;
 
 import java.util.List;
 
@@ -18,31 +18,31 @@ public class ContactHelper extends BaseHelper {
         super(wd);
     }
 
-    public void fillNewUserForm(UserData userData, boolean creation) {
-        type(By.name("firstname"), userData.getFirstName());
-        type(By.name("middlename"), userData.getMiddleName());
-        type(By.name("lastname"), userData.getLastName());
-        type(By.name("nickname"), userData.getNickName());
-        type(By.name("title"), userData.getTitle());
-        type(By.name("company"), userData.getCompany());
-        type(By.name("address"), userData.getAddress());
-        type(By.name("home"), userData.getHomePhone());
-        type(By.name("mobile"), userData.getMobilePhone());
-        type(By.name("work"), userData.getWorkPhone());
-        type(By.name("fax"), userData.getFax());
-        type(By.name("email"), userData.getEmail1());
-        type(By.name("email2"), userData.getEmail2());
-        type(By.name("email3"), userData.getEmail3());
-        type(By.name("homepage"), userData.getWebSite());
-        type(By.name("address2"), userData.getAddress2());
-        type(By.name("phone2"), userData.getHomePhone2());
-        type(By.name("notes"), userData.getNotes());
-        attach(By.name("photo"), userData.getPhoto());
+    public void fillNewUserForm(ContactData contactData, boolean creation) {
+        type(By.name("firstname"), contactData.getFirstName());
+        type(By.name("middlename"), contactData.getMiddleName());
+        type(By.name("lastname"), contactData.getLastName());
+        type(By.name("nickname"), contactData.getNickName());
+        type(By.name("title"), contactData.getTitle());
+        type(By.name("company"), contactData.getCompany());
+        type(By.name("address"), contactData.getAddress());
+        type(By.name("home"), contactData.getHomePhone());
+        type(By.name("mobile"), contactData.getMobilePhone());
+        type(By.name("work"), contactData.getWorkPhone());
+        type(By.name("fax"), contactData.getFax());
+        type(By.name("email"), contactData.getEmail1());
+        type(By.name("email2"), contactData.getEmail2());
+        type(By.name("email3"), contactData.getEmail3());
+        type(By.name("homepage"), contactData.getWebSite());
+        type(By.name("address2"), contactData.getAddress2());
+        type(By.name("phone2"), contactData.getHomePhone2());
+        type(By.name("notes"), contactData.getNotes());
+        attach(By.name("photo"), contactData.getPhoto());
 
         if (creation) {
             Select groupSelector = new Select(wd.findElement(By.name("new_group")));
-            if (userData.getGroup() != null) {
-                groupSelector.selectByVisibleText(userData.getGroup());
+            if (contactData.getGroup() != null) {
+                groupSelector.selectByVisibleText(contactData.getGroup());
             }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -76,9 +76,9 @@ public class ContactHelper extends BaseHelper {
         click(By.xpath("//div[@id='content']/form[1]/input[22]"));
     }
 
-    public void create(UserData userData) {
+    public void create(ContactData contactData) {
         initUserCreation();
-        fillNewUserForm(userData, true);
+        fillNewUserForm(contactData, true);
         submitNewUserForm();
         contactsCache = null;
     }
@@ -95,27 +95,27 @@ public class ContactHelper extends BaseHelper {
             String allPhones = cells.get(5).getText();
             String allEmails = cells.get(4).getText();
             String address = cells.get(3).getText();
-            UserData user = new UserData().withFirstName(cells.get(2).getText())
-                                          .withLastName(cells.get(1).getText())
-                                          .withId(id)
-                                          .withAllPhones(allPhones)
-                                          .withAllEmails(allEmails)
-                                          .withAddress(address);
+            ContactData user = new ContactData().withFirstName(cells.get(2).getText())
+                                                .withLastName(cells.get(1).getText())
+                                                .withId(id)
+                                                .withAllPhones(allPhones)
+                                                .withAllEmails(allEmails)
+                                                .withAddress(address);
             contactsCache.add(user);
         }
         return new Contacts(contactsCache);
     }
 
-    public void modify(UserData userData) {
-        selectUserById(userData.getId());
-        initUserModification(userData.getId());
-        fillNewUserForm(userData, false);
+    public void modify(ContactData contactData) {
+        selectUserById(contactData.getId());
+        initUserModification(contactData.getId());
+        fillNewUserForm(contactData, false);
         submitUserModificationForm();
         contactsCache = null;
     }
 
-    public void delete(UserData userData) {
-        selectUserById(userData.getId());
+    public void delete(ContactData contactData) {
+        selectUserById(contactData.getId());
         deleteSelectedUser();
         submitUserDeletion();
         contactsCache = null;
@@ -125,7 +125,7 @@ public class ContactHelper extends BaseHelper {
         return wd.findElements(By.xpath("//tr[@name='entry']")).size();
     }
 
-    public UserData infoFromEditForm(UserData contact) {
+    public ContactData infoFromEditForm(ContactData contact) {
         initUserModification(contact.getId());
         String firstName = wd.findElement(By.name("firstname")).getAttribute("value");
         String lastName = wd.findElement(By.name("lastname")).getAttribute("value");
@@ -138,9 +138,9 @@ public class ContactHelper extends BaseHelper {
         String email3 = wd.findElement(By.name("email3")).getAttribute("value");
         String address = wd.findElement(By.name("address")).getAttribute("value");
         wd.navigate().back();
-        return new UserData().withId(contact.getId()).withFirstName(firstName).withLastName(lastName)
-                             .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withHomePhone2(home2)
-                             .withEmail1(email).withEmail2(email2).withEmail3(email3)
-                             .withAddress(address);
+        return new ContactData().withId(contact.getId()).withFirstName(firstName).withLastName(lastName)
+                                .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withHomePhone2(home2)
+                                .withEmail1(email).withEmail2(email2).withEmail3(email3)
+                                .withAddress(address);
     }
 }
