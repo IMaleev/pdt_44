@@ -91,19 +91,16 @@ public class ContactCreationTests extends TestBase {
     @Test(dataProvider = "validContactsJson")
     public void testUserCreation(ContactData contact) {
         File photo = new File("src/test/resources/photo.jpg");
-        app.goTo()
-           .groupPage();
+        app.goTo().groupPage();
         if (!app.groups().isThereAGroupWithName(contact.getGroup())) {
             app.groups().create(new GroupData().withName(contact.getGroup()).withHeader("test2").withHeader("test3"));
         }
-        app.goTo()
-           .homePage();
-        Contacts before = app.contacts().all();
+        app.goTo().homePage();
+        Contacts before = app.db().contacts();
         app.contacts().create(contact.withPhoto(photo));
-        app.goTo()
-           .homePage();
+        app.goTo().homePage();
         assertThat(app.contacts().count(), equalTo(before.size() + 1));
-        Contacts after = app.contacts().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 

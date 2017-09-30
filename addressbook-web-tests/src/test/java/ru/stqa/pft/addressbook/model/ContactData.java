@@ -3,58 +3,121 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
 
     @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int id = Integer.MAX_VALUE;
+
     @Expose
+    @Column(name = "firstname")
     private String firstName;
+
     @Expose
+    @Column(name = "middlename")
     private String middleName;
+
     @Expose
+    @Column(name = "lastname")
     private String lastName;
+
     @Expose
+    @Column(name = "nickname")
     private String nickName;
+
     @Expose
+    @Column(name = "title")
     private String title;
+
     @Expose
+    @Column(name = "company")
     private String company;
+
     @Expose
+    @Column(name = "address")
+    @Type(type = "text")
     private String address;
+
     @Expose
+    @Column(name = "home")
+    @Type(type = "text")
     private String homePhone;
+
     @Expose
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobilePhone;
+
     @Expose
+    @Column(name = "work")
+    @Type(type = "text")
     private String workPhone;
+
     @Expose
+    @Column(name = "fax")
+    @Type(type = "text")
     private String fax;
+
     @Expose
+    @Column(name = "email")
+    @Type(type = "text")
     private String email1;
+
     @Expose
+    @Column(name = "email2")
+    @Type(type = "text")
     private String email2;
+
     @Expose
+    @Column(name = "email3")
+    @Type(type = "text")
     private String email3;
+
     @Expose
+    @Column(name = "homepage")
+    @Type(type = "text")
     private String webSite;
+
     @Expose
+    @Column(name = "address2")
+    @Type(type = "text")
     private String address2;
+
     @Expose
+    @Column(name = "phone2")
+    @Type(type = "text")
     private String homePhone2;
+
     @Expose
+    @Column(name = "notes")
+    @Type(type = "text")
     private String notes;
+
     @Expose
+    @Transient
     private String group;
+
+    @Transient
     private String allPhones;
+
+    @Transient
     private String allEmails;
-    private File photo;
+
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
 
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public String getFirstName() {
@@ -257,7 +320,7 @@ public class ContactData {
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 
@@ -275,11 +338,27 @@ public class ContactData {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
 
-        ContactData contactData = (ContactData) o;
+        ContactData that = (ContactData) o;
 
-        if (id != contactData.id) { return false; }
-        if (firstName != null ? !firstName.equals(contactData.firstName) : contactData.firstName != null) { return false; }
-        return lastName != null ? lastName.equals(contactData.lastName) : contactData.lastName == null;
+        if (id != that.id) { return false; }
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) { return false; }
+        if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null) { return false; }
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) { return false; }
+        if (nickName != null ? !nickName.equals(that.nickName) : that.nickName != null) { return false; }
+        if (title != null ? !title.equals(that.title) : that.title != null) { return false; }
+        if (company != null ? !company.equals(that.company) : that.company != null) { return false; }
+        if (address != null ? !address.equals(that.address) : that.address != null) { return false; }
+        if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) { return false; }
+        if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) { return false; }
+        if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) { return false; }
+        if (fax != null ? !fax.equals(that.fax) : that.fax != null) { return false; }
+        if (email1 != null ? !email1.equals(that.email1) : that.email1 != null) { return false; }
+        if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) { return false; }
+        if (email3 != null ? !email3.equals(that.email3) : that.email3 != null) { return false; }
+        if (webSite != null ? !webSite.equals(that.webSite) : that.webSite != null) { return false; }
+        if (address2 != null ? !address2.equals(that.address2) : that.address2 != null) { return false; }
+        if (homePhone2 != null ? !homePhone2.equals(that.homePhone2) : that.homePhone2 != null) { return false; }
+        return notes != null ? notes.equals(that.notes) : that.notes == null;
 
     }
 
@@ -287,7 +366,23 @@ public class ContactData {
     public int hashCode() {
         int result = id;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (nickName != null ? nickName.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (company != null ? company.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+        result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+        result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+        result = 31 * result + (fax != null ? fax.hashCode() : 0);
+        result = 31 * result + (email1 != null ? email1.hashCode() : 0);
+        result = 31 * result + (email2 != null ? email2.hashCode() : 0);
+        result = 31 * result + (email3 != null ? email3.hashCode() : 0);
+        result = 31 * result + (webSite != null ? webSite.hashCode() : 0);
+        result = 31 * result + (address2 != null ? address2.hashCode() : 0);
+        result = 31 * result + (homePhone2 != null ? homePhone2.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }
 }
