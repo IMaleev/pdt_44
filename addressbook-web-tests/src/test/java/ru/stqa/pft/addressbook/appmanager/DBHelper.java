@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.openqa.selenium.By;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -46,6 +47,42 @@ public class DBHelper {
         session.getTransaction().commit();
         session.close();
         return new Contacts(result);
+    }
+
+    public boolean isThereAGroupWithName(String groupName) {
+        for (GroupData group: groups()) {
+            if (group.getName().equals(groupName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public GroupData getGroupByName(String groupName) {
+        for (GroupData group: groups()) {
+            if (group.getName().equals(groupName)) {
+                return group;
+            }
+        }
+        return null;
+    }
+
+    public ContactData getContactById(int id) {
+        for (ContactData contact: contacts()) {
+            if (contact.getId() == id) {
+                return contact;
+            }
+        }
+        return null;
+    }
+
+    public GroupData getGroupById(int id) {
+        for (GroupData group: groups()) {
+            if (group.getId() == id) {
+                return group;
+            }
+        }
+        return null;
     }
 }
 

@@ -3,11 +3,13 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,7 +49,7 @@ public class ContactCreationTests extends TestBase {
                                                          .withWebSite(split[14])
                                                          .withAddress2(split[15])
                                                          .withHomePhone2(split[16])
-                                                         .withNotes(split[17]).withGroup(split[18]) });
+                                                         .withNotes(split[17])});
             }
             return list.iterator();
         }
@@ -88,16 +90,20 @@ public class ContactCreationTests extends TestBase {
         }
     }
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        if (app.db().groups().size() == 0) {
+            app.goTo().groupPage();
+            app.groups().create(new GroupData().withName("test1").withHeader("test2").withHeader("test3"));
+        }
+    }
+
     @Test(dataProvider = "validContactsJson")
     public void testUserCreation(ContactData contact) {
         File photo = new File("src/test/resources/photo.jpg");
-        app.goTo().groupPage();
-        if (!app.groups().isThereAGroupWithName(contact.getGroup())) {
-            app.groups().create(new GroupData().withName(contact.getGroup()).withHeader("test2").withHeader("test3"));
-        }
         app.goTo().homePage();
         Contacts before = app.db().contacts();
-        app.contacts().create(contact.withPhoto(photo));
+        app.contacts().create(contact.withPhoto(photo).withGroup(app.db().groups().iterator().next()));
         app.goTo().homePage();
         assertThat(app.contacts().count(), equalTo(before.size() + 1));
         Contacts after = app.db().contacts();

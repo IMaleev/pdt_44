@@ -16,7 +16,7 @@ public class ContactAddressTests extends TestBase {
                                                    .withNickName("Nick Name").withTitle("Title").withCompany("Company").withAddress("Address")
                                                    .withHomePhone("111").withMobilePhone("222").withWorkPhone("333").withFax("444")
                                                    .withEmail1("email1@gmail.com").withEmail2("email2@gmail.com").withEmail3("email3@gmail.com")
-                                                   .withWebSite("www.google.com").withAddress2("Address2").withHomePhone2("55555").withNotes("Notes").withGroup("test1"));
+                                                   .withWebSite("www.google.com").withAddress2("Address2").withHomePhone2("55555").withNotes("Notes"));
         }
     }
 

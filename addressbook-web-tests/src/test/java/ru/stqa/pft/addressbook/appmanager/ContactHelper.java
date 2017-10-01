@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -41,8 +42,9 @@ public class ContactHelper extends BaseHelper {
         if (creation) {
             attach(By.name("photo"), contactData.getPhoto());
             Select groupSelector = new Select(wd.findElement(By.name("new_group")));
-            if (contactData.getGroup() != null) {
-                groupSelector.selectByVisibleText(contactData.getGroup());
+            if (contactData.getGroups().size() > 0) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                groupSelector.selectByVisibleText(contactData.getGroups().iterator().next().getName());
             }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -142,5 +144,19 @@ public class ContactHelper extends BaseHelper {
                                 .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work).withHomePhone2(home2)
                                 .withEmail1(email).withEmail2(email2).withEmail3(email3)
                                 .withAddress(address);
+    }
+
+    public void addContactToGroup(ContactData contact, GroupData group) {
+        selectUserById(contact.getId());
+        Select groupSelector = new Select(wd.findElement(By.name("to_group")));
+        groupSelector.selectByVisibleText(group.getName());
+        wd.findElement(By.name("add")).click();
+    }
+
+    public void removeContactFromGroup(ContactData contact, GroupData group) {
+        Select groupSelector = new Select(wd.findElement(By.name("group")));
+        groupSelector.selectByVisibleText(group.getName());
+        selectUserById(contact.getId());
+        wd.findElement(By.name("remove")).click();
     }
 }

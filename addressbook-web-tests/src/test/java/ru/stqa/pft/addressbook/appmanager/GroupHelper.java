@@ -53,10 +53,6 @@ public class GroupHelper extends BaseHelper {
         returnToGroupPage();
     }
 
-    public boolean isThereAGroupWithName(String groupName) {
-        return isElementPresent(By.xpath("//span[(@class='group') and (text()='"+groupName+"')]"));
-    }
-
     public Groups all() {
         if (groupsCache != null) {
             return new Groups(groupsCache);
