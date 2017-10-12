@@ -1,6 +1,5 @@
 package ru.stqa.pft.mantis.appmanager;
 
-import org.apache.commons.exec.ExecuteStreamHandler;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -19,8 +18,13 @@ public class ApplicationManager {
     private WebDriver wd;
 
     private String browser;
-    private RegistrationHelper registrationHelper;
+    private MantisUIHelper mantisUiHelper;
     private FtpHelper ftpHelper;
+    private MailHelper mailHelper;
+    private JamesHelper jamesHelper;
+    private DbHelper dbHelper;
+    private NavigationHelper navigationHelper;
+    private UsersHelper usersHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -46,11 +50,11 @@ public class ApplicationManager {
         return properties.getProperty(key);
     }
 
-    public RegistrationHelper registration() {
-        if (null == registrationHelper) {
-            registrationHelper = new RegistrationHelper(this);
+    public MantisUIHelper mantisUI() {
+        if (null == mantisUiHelper) {
+            mantisUiHelper = new MantisUIHelper(this);
         }
-        return registrationHelper;
+        return mantisUiHelper;
     }
 
     public FtpHelper ftp() {
@@ -71,5 +75,40 @@ public class ApplicationManager {
             wd.get(properties.getProperty("web.baseUrl"));
         }
         return wd;
+    }
+
+    public MailHelper mail() {
+        if (null == mailHelper) {
+            mailHelper = new MailHelper(this);
+        }
+        return mailHelper;
+    }
+
+    public JamesHelper james() {
+        if (null == jamesHelper) {
+            jamesHelper = new JamesHelper(this);
+        }
+        return jamesHelper;
+    }
+
+    public DbHelper db() {
+        if (null == dbHelper) {
+            dbHelper = new DbHelper(this);
+        }
+        return dbHelper;
+    }
+
+    public NavigationHelper goTo() {
+        if (null == navigationHelper) {
+            navigationHelper = new NavigationHelper(this);
+        }
+        return navigationHelper;
+    }
+
+    public UsersHelper users() {
+        if (null == usersHelper) {
+            usersHelper = new UsersHelper(this);
+        }
+        return usersHelper;
     }
 }
