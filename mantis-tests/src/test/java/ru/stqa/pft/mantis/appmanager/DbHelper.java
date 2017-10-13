@@ -26,7 +26,7 @@ public class DbHelper {
     public Users users() {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        List<UserData> result = session.createQuery("from UserData").list();
+        List<UserData> result = session.createQuery("from UserData where username != 'administrator'").list();
         session.getTransaction().commit();
         session.close();
         return new Users(result);
