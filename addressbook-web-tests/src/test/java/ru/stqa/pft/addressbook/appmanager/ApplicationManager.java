@@ -1,9 +1,11 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -43,10 +45,13 @@ public class ApplicationManager {
                 wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
             } else if (browser.equals(BrowserType.CHROME)) {
                 wd = new ChromeDriver();
+            } else if (browser.equals(BrowserType.IE)) {
+                wd = new InternetExplorerDriver();
             }
         } else {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName(browser);
+            capabilities.setPlatform(Platform.fromString(System.getProperty("platform", "MAC")));
             wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
         }
 
